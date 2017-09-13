@@ -4,12 +4,19 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"bytes"
 )
 
 func main() {
 	client := &http.Client{}
 
-	req, _ := http.NewRequest("GET", "http://localhost:8087/dog?color=blue&breed=no", nil)
+	color := "red"
+	breed := "pug"
+	url := fmt.Sprintf("http://localhost:8087/dog?color=%v&breed=%v", color, breed)
+	reqBody := []byte("hello")
+	req, _ := http.NewRequest("GET", url, bytes.NewBuffer(reqBody))
+	req.Header.Set("key", "value")
+
 	fmt.Println(req)
 	resp, err := client.Do(req)
 
